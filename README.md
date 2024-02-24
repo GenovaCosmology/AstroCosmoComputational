@@ -5,4 +5,4 @@ This repository contains the material for the Course "Computational Astrophysics
 
 The repository's main branch will be updated at the beginning of every lesson with exercises covering its specific topic. 
 
-You can find more information in the [Wiki}(https://github.com/GenovaCosmology/AstroCosmoComputational/wiki).
+You can find more information in the [Wiki](https://github.com/GenovaCosmology/AstroCosmoComputational/wiki).
