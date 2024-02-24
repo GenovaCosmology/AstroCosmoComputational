@@ -1,4 +1,5 @@
-![banner2](https://github.com/alfonso-veropalumbo/computational_astro_cosmo/assets/8044878/dac3a4b9-cf14-4cca-9103-22918e3b85dc)
+![banner2](https://github.com/GenovaCosmology/AstroCosmoComputational/assets/8044878/06904eb6-c467-481c-9ace-86c70d8a0932)
+
 # Computational Astrophysics and Cosmology
 
 This repository contains the material for the Course "Computational Astrophysics and Cosmology" for the Master in Physics at the Physics Department at the University of Genova.
