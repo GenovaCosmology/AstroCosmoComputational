@@ -1,8 +1,7 @@
-Logger
-======
-
+acc_utils
+=========
 
 .. toctree::
    :maxdepth: 4
 
-   Logger
+   acc_utils
