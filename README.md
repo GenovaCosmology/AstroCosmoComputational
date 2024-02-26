@@ -22,12 +22,5 @@ The official programming language for this course is Python.
 Installing Python with Anaconda and the **intensive** use of environments are recommended.
 We also recommend using Jupyter notebooks as tools for results sharing and Visual Studio Code as a development environment.
 
-Please have a look at [Python coding standards](https://peps.python.org/pep-0008/) and at [Anaconda documentation](https://docs.anaconda.com/index.html).
-
 The use of custom Python modules, extensive documentation, and object-oriented programming will be particularly appreciated.
 There is no specific restriction on the use of AI tools (GitHub Copilot, ChatGPT, etc.). Please remember that at the exam, you should be prepared to describe the details of your code.
-
-## Useful links:
-
-- [UnOfficial Wiki](https://legendary-sun-e88.notion.site/d556e60248994a9ea0fd50c98de0da51?v=6c8559bd28b04b91a8d7d6d4d970bc6e&pvs=25)
-- [AulaWeb](https://2023.aulaweb.unige.it/enrol/index.php?id=12219)

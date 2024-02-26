@@ -1,0 +1,25 @@
+name: acc-env
+channels:
+  - conda-forge
+dependencies:
+  - c-compiler
+  - cxx-compiler
+  - fortran-compiler
+  - boost-cpp
+  - gsl
+  - eigen
+  - fftw
+  - cfitsio
+  - ccfits
+  - swig
+  - python=3.9
+  - jupyterlab
+  - numpy
+  - matplotlib
+  - sympy
+  - scipy
+  - tqdm
+  - healpy
+  - colorama
+  - astropy
+  - sphinx
