@@ -1,7 +1,7 @@
-acc_utils
-=========
+pyACC
+=====
 
 .. toctree::
    :maxdepth: 4
 
-   acc_utils
+   pyACC
