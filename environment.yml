@@ -10,7 +10,6 @@ dependencies:
   - eigen
   - fftw
   - cfitsio
-  - ccfits
   - swig
   - python=3.9
   - jupyterlab
