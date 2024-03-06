@@ -64,3 +64,42 @@ class CosmologicalDistances:
             float or list of floats: Luminosity distance(s) corresponding to the input redshift(s).
         """
         return self.comoving_distance(z, step=step)*(1+z)
+        
+    def distance_modulus_from_redshift(self, redshift, step=0.01):
+        """
+        Calculate the distance modulus given the redshift and absolute magnitude.
+
+        Args:
+            redshift (float): The redshift of the astronomical object.
+            absolute_magnitude (float): The absolute magnitude of the astronomical object.
+
+        Returns:
+            float: The distance modulus.
+        """
+
+        # Calculate luminosity distance (in Mpc)
+        luminosity_distance = self.luminosity_distance(redshift, step)
+
+        # Calculate distance modulus
+        distance_modulus = 5.0 * (np.log10(luminosity_distance) - 1.0) 
+
+        return distance_modulus
+    
+    def distance_modulus_from_luminosity_distance(self, luminosity_distance, step=0.01):
+        """
+        Calculate the distance modulus given the redshift and absolute magnitude.
+
+        Args:
+            redshift (float): The redshift of the astronomical object.
+            absolute_magnitude (float): The absolute magnitude of the astronomical object.
+
+        Returns:
+            float: The distance modulus.
+        """
+
+        # Calculate distance modulus
+        distance_modulus = 5.0 * (np.log10(luminosity_distance) - 1.0) 
+
+        return distance_modulus
+
+
