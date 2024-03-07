@@ -2,7 +2,7 @@ import numpy as np
 from ..Calculus import integrate_f
 c=299792 #km/s
 
-# in hubble we have all the information of the model!
+# in hubble we have all the information of the model
 
 def hubble(z, wde=-1, H0=67.0,omegaM=0.32,omegaLam=0.68,omegaGamma=0,omegaNu=0):
     '''
