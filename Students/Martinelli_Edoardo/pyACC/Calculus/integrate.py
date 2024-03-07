@@ -6,10 +6,12 @@ from typing import Any
 import time
 
 def integrate_f(func,x_in=0,x_fin=0): # need to add ,deltax=0 if we want to use the trapezoid method
+    
     print("---")  
     print("--> ",datetime.fromtimestamp(time.time()))
     print("---")
     
+
     '''
     This function integrates a function or a sample:
 
