@@ -75,9 +75,9 @@ def integral(func,i,f,d):
 #example: sine from 0 to pi
 def integrand(x):
     return np.sin(x)
-i = 0
-f = m.pi
-d = 0.01
+i=0
+f=m.pi
+d=0.01
 result = integral(integrand, i, f, d)
 print("Integral using quad:", result)
 '''
