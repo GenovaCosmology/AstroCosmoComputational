@@ -1,7 +1,7 @@
 from ..calculus import integral
 
 def integrand(z,H,OmegaM,OmegaR,w,H0):
-    c=3*10**5
+    c=3*10**5 #km/s
     return c/H(z,OmegaM,OmegaR,w,H0)
 
 def Dc(H,z,OmegaM,OmegaR,w,H0):
