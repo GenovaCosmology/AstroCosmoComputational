@@ -1,9 +1,8 @@
 import numpy as np
 import scipy as sp
 
-def trapz(f, min, max, step):
-    x=np.arange(min, max, step)
-    integral = np.trapz(f(x), x)
+def quad(f, min, max):
+    integral = sp.integrate.quad(f, min, max)
     return integral
 
 def simpson(f,x):

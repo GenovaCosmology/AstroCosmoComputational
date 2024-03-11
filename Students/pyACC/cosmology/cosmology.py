@@ -1,4 +1,4 @@
-from ..calculus.integrate import trapz, simpson
+from ..calculus.integrate import quad
 import numpy as np
 from scipy.constants import c as speed_of_light
 
@@ -22,7 +22,7 @@ class CosmologicalDistances:
         self.hubble_function = lambda z: hubble_function(z, **kwargs)
         
                 
-    def comoving_distance(self, z, step=0.01):
+    def comoving_distance(self, z):
         """
         Computes the comoving distance at given redshift(s).
 
@@ -35,10 +35,13 @@ class CosmologicalDistances:
         """
 
         integrand = lambda z: speed_of_light/self.hubble_function(z)
-        distance = [ trapz(integrand, 0, el, step ) for el in z]
-        return distance
 
-    def angular_diameter_distance(self,z, step=0.01):
+        integral = np.zeros(z.size)
+        for i,redshift in enumerate(z):
+            integral[i] = quad(integrand, 0.0, redshift)[0]
+        return integral
+
+    def angular_diameter_distance(self,z):
         """
         Computes the angular diameter distance at given redshift(s).
 
@@ -49,10 +52,10 @@ class CosmologicalDistances:
         Returns:
             float or list of floats: Angular diameter distance(s) corresponding to the input redshift(s).
         """
-        return self.comoving_distance(z, step=step)/(1+z)
+        return self.comoving_distance(z)/(1+z)
 
     
-    def luminosity_distance(self,z, step=0.01):
+    def luminosity_distance(self,z):
         """
         Computes the luminosity distance at given redshift(s).
 
@@ -63,9 +66,9 @@ class CosmologicalDistances:
         Returns:
             float or list of floats: Luminosity distance(s) corresponding to the input redshift(s).
         """
-        return self.comoving_distance(z, step=step)*(1+z)
+        return self.comoving_distance(z)*(1+z)
         
-    def distance_modulus_from_redshift(self, redshift, step=0.01):
+    def distance_modulus_from_redshift(self, redshift):
         """
         Calculate the distance modulus given the redshift and absolute magnitude.
 
@@ -78,14 +81,14 @@ class CosmologicalDistances:
         """
 
         # Calculate luminosity distance (in Mpc)
-        luminosity_distance = self.luminosity_distance(redshift, step)
+        luminosity_distance = self.luminosity_distance(redshift)
 
         # Calculate distance modulus
         distance_modulus = 5.0 * (np.log10(luminosity_distance) - 1.0) 
 
         return distance_modulus
     
-    def distance_modulus_from_luminosity_distance(self, luminosity_distance, step=0.01):
+    def distance_modulus_from_luminosity_distance(self, luminosity_distance):
         """
         Calculate the distance modulus given the redshift and absolute magnitude.
 
