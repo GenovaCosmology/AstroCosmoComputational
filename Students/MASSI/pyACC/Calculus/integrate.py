@@ -9,7 +9,4 @@ def integrale_trapezio(funzione, min, max, dx):
     return dx*tot/2
 
 
-print (integrale_trapezio(math.sin, 0, math.pi, 0.01))
-
-
-
+#print (integrale_trapezio(math.sin, 0, math.pi, 0.01))
