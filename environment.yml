@@ -24,3 +24,5 @@ dependencies:
   - sphinx
   - ipykernel
   - pandas
+  - scikit-learn
+  
