@@ -1,1 +1,2 @@
-from .integrate import Integrate
+from .integrate import *
+from .Function import MyFunc
