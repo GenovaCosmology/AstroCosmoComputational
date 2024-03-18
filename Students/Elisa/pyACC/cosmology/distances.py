@@ -1,5 +1,5 @@
 import numpy as np
-from ..Calculus import integral,trapezoid
+from ..calculus import integral,trapezoid
 import scipy
 import scipy.integrate as integrate
 
