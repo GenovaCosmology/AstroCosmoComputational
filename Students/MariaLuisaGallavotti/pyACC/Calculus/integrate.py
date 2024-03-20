@@ -66,10 +66,14 @@ def integral(func,i,f,d):
     #d: spacing
 
     #number of subdivisions
-    n = m.ceil((f-i)/d)
-    
-    result,error=quad(func,i,f,limit=n)
-    return result
+    n=m.ceil((f-i)/d)
+    if n<0:
+        return "Invalid: the number of subdivisions is negative."
+    elif n==0:
+        return 0
+    else:    
+        result,error=quad(func,i,f,limit=n)
+        return result
 
 '''
 #example: sine from 0 to pi
