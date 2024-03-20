@@ -9,11 +9,12 @@
 #Attenzione: se h è troppo piccolo potrei avere un errore grande
 
 
-
-#from .calculus import integral #??????????????????????????
+#from .integrate import integral
+#'''
 import sys
 sys.path.append("../../")
 from pyACC.calculus import integral
+#'''
 import math as m
 import numpy as np
 from scipy.optimize import approx_fprime #the approx_prime function of SciPy is designed to approximate the gradient (or derivative) of a scalar-valued function of one or more variables using finite differences
