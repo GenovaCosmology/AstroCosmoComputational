@@ -2,6 +2,14 @@ import sys
 sys.path.append("../")
 from Calculus import trapezoid
 from Calculus import simpsons_rule
+from scipy import interpolate
+
+##Only for test programm
+import numpy as np
+import matplotlib.pyplot as plt
+plt.rcParams.update({
+    "text.usetex": True,
+    "font.family": "serif",})
 
 class Polyfunctions:
     ##************************************##
@@ -40,27 +48,15 @@ class Polyfunctions:
     #Central derivative method
     def central_difference_2_derivative(self, x, h):
         return (self.function(x + h) - 2 * self.function(x) + self.function(x - h)) / (h**2)
-
-
-
-##TEST
-def prova(x):
-    return x*x
     
-fun = Polyfunctions(prova)
+    ##**************************************##
+    ##INTERPOLATION (EXERCISE 2 OF LESSON 3)##
+    ##**************************************##
+    def my_interpol1d(self, x, y):
+        return interpolate.interp1d(x, y, kind='linear', bounds_error='false', fill_value=np.nan)
 
-result  = fun.evaluate(5)
-result2 = fun.integrate_function_trapezoid(0,1,0.1) 
-result5 = fun.integrate_function_simpson_rule(0,1,100)
-result3 = fun.forward_difference_derivative(1,0.1)
-result4 = fun.central_difference_derivative(1,0.1)
-result6 = fun.central_difference_2_derivative(1,0.1)
-print(result)
-print(result2)
-print(result5)
-print(result3)
-print(result4)
-print(result6)
+
+
 
 
         
