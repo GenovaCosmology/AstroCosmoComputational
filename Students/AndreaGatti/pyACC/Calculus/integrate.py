@@ -3,7 +3,7 @@ import math as m
 
 '''
 def trapezoid(integrand, low, up, delta_x):
-    x = np.arange(low, up, delta_x)
+    x = np.arange(low, up+delta_x, delta_x)
     fx = integrand(x)
 
     return (np.sum( (fx[1:] + fx[0:-1])/2 * (x[1:]-x[0:-1]) ))
@@ -22,5 +22,8 @@ def trapezi(f, a, b, n):
         val = val + w*f(x)
     return val
 
+    
+'''
 valore_int = trapezi(m.sin, 0, m.pi, 10000)
 print(valore_int)
+'''
