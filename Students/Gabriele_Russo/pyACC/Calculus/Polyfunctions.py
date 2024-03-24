@@ -49,11 +49,12 @@ class Polyfunctions:
     def central_difference_2_derivative(self, x, h):
         return (self.function(x + h) - 2 * self.function(x) + self.function(x - h)) / (h**2)
     
-    ##**************************************##
-    ##INTERPOLATION (EXERCISE 2 OF LESSON 3)##
-    ##**************************************##
-    def my_interpol1d(self, x, y):
-        return interpolate.interp1d(x, y, kind='linear', bounds_error='false', fill_value=np.nan)
+##**************************************##
+##INTERPOLATION (EXERCISE 2 OF LESSON 3)##
+##**************************************##
+#Defined as an indipendent function
+def my_interpol1d(x, y):
+     return interpolate.interp1d(x, y, kind='linear', bounds_error='false', fill_value=np.nan)
 
 
 
