@@ -49,10 +49,25 @@ class Polyfunctions:
     def central_difference_2_derivative(self, x, h):
         return (self.function(x + h) - 2 * self.function(x) + self.function(x - h)) / (h**2)
     
+    ##**************************************##
+    ##INTERPOLATION (EXERCISE 2 OF LESSON 3)##
+    ##**************************************##
+    #How to estimate interpolation error VS theoretical count
+    def interpol_error(self, new_points, theory_points):
+        
+        Delta = []
+        
+        for i in range(len(new_points)):
+            delta = new_points[i] - theory_points[i]
+            Delta.append(-delta)
+
+        return Delta
+    
+    
 ##**************************************##
 ##INTERPOLATION (EXERCISE 2 OF LESSON 3)##
 ##**************************************##
-#Defined as an indipendent function
+#Personal method to interpolate defined as an indipendent function
 def my_interpol1d(x, y):
      return interpolate.interp1d(x, y, kind='linear', bounds_error='false', fill_value=np.nan)
 
