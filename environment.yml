@@ -23,3 +23,6 @@ dependencies:
   - astropy
   - sphinx
   - ipykernel
+  - pandas
+  - scikit-learn
+  
