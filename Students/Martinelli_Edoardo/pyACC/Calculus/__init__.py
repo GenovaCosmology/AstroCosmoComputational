@@ -1,1 +1,2 @@
-from .integrate import integrate_f
+from .integrate import *
+from .function import *

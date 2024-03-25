@@ -62,13 +62,17 @@ def comoving_distance(z, wde=-1, H0=67.0,omegaM=0.32, omegaLam=0.68,omegaGamma=0
     return : float or array
         Comoving distance
     '''
+    omegaK=1-(omegaLam+omegaM+omegaGamma+omegaNu)
+    if omegaK!=0:
+        print('Curvature is not zero, use comoving_distance_transverse instead!')
+        return None
     integrand = lambda x: c/hubble(x, wde, H0, omegaM, omegaLam, omegaGamma, omegaNu)
     if type(z) == float or type(z) == int:
-        return integrate_f(integrand, 0, z)[0]
+        return integrate_f(integrand, 0, z)
     else:
         chiZ=np.zeros(z.size)
         for z_i,Z in enumerate(z):
-            chiZ[z_i]=integrate_f(integrand, 0, Z)[0]
+            chiZ[z_i]=integrate_f(integrand, 0, Z)
         return chiZ
 
 
