@@ -14,7 +14,7 @@ def quad_integral(integrand, low, up):
     up: float
         Upper limit for integration
     """
-    return integrate.quad(integrand, low, up)
+    return integrate.quad(integrand, low, up)[0]
 
 #def trapezoid_integral(integrand, low, up, delta_x):
    # x = np.arange(low, up, delta_x)
