@@ -38,13 +38,16 @@ class Operations: #class definition
          return integral
     
     def differentiate(self,point,eps=1e-8): #method: compute the derivative (gradient or Jacobian) of the function (self) in "point"
-        n=len(point) #number of variables
-        if isinstance(self.function(point),(int,float)): #if the function in "point" is a scalar
-            return approx_fprime(point,self.function,epsilon=eps) #approximates the gradient (which represents the approximation of the derivative) of the scalar-valued function "self.function" in "point", while eps is the step size used in the finite difference approximation
-        else: #if the function in "point" is a vector (with N components)
-            N=len(self.function(point))
-            jacobian=[]
-            for i in range(N):
-                jacobian_row=approx_fprime(point,lambda x: self.function(x)[i],epsilon=eps)
-                jacobian.append(jacobian_row)
-            return jacobian
+        if isinstance(point,(int,float)):
+            return approx_fprime(point,self.function,epsilon=eps)
+        else:
+            n=len(point) #number of variables
+            if isinstance(self.function(point),(int,float)): #if the function in "point" is a scalar
+                return approx_fprime(point,self.function,epsilon=eps) #approximates the gradient (which represents the approximation of the derivative) of the scalar-valued function "self.function" in "point", while eps is the step size used in the finite difference approximation
+            else: #if the function in "point" is a vector (with N components)
+                N=len(self.function(point))
+                jacobian=[]
+                for i in range(N):
+                    jacobian_row=approx_fprime(point,lambda x: self.function(x)[i],epsilon=eps)
+                    jacobian.append(jacobian_row)
+                return jacobian
