@@ -8,6 +8,8 @@ Subpackages
    :maxdepth: 4
 
    pyACC.helpers
+   pyACC.calculus
+   pyACC.cosmology
 
 Module contents
 ---------------
