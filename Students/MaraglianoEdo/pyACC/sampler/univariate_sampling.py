@@ -47,7 +47,34 @@ def rejection_sampling(target, domain, n_samples, proposal=None):
 
     return xs[mask], norm_proposal
 
-def inverse_transform_sampling():
-    pass
+def inverse_transform_sampling(pdf, x, n_samples=1000):
+    """
+    Generate samples using inverse transform sampling.
+    
+    Parameters:
+        pdf (callable): Probability density function.
+        x_values (array_like): Values of the variable corresponding to the PDF.
+        n_samples (int): Number of samples to generate.
+        
+    Returns:
+        numpy.ndarray: Generated samples.
+    """
+
+    # Generate random uniform samples
+   
+    u = np.random.uniform(0, 1, n_samples)
+    
+    pdf_val = pdf(x)
+    # Compute the CDF
+
+    cdf = np.array([np.trapz(pdf_val[:i], x[:i]) for i in range(1, len(x) + 1)])
+
+    # Compute inverse CDF
+    inverse_cdf = sp.interpolate.interp1d(cdf,x)
+    
+    # Use inverse CDF to get samples
+    samples = inverse_cdf(u)
+    
+    return samples, cdf, inverse_cdf
 
 
