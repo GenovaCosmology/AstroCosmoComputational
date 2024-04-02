@@ -49,6 +49,30 @@ class Polyfunctions:
     def central_difference_2_derivative(self, x, h):
         return (self.function(x + h) - 2 * self.function(x) + self.function(x - h)) / (h**2)
     
+    #EXTENSION IN n DIMENSIONS
+    def general_central_difference_derivative(self, x, h):
+        """
+        Compute the derivative of the function at the point x using the central difference method.
+
+        Parameters:
+        - x: array-like, the point at which to compute the derivative
+        - h: float, the step size for numerical differentiation
+
+        Returns:
+        - derivative: array-like, the numerical derivative of the function at the point x
+        """
+        n = len(x)
+        derivative = np.zeros(n)
+        
+        for i in range(n):
+            x_plus_h = np.array(x)
+            x_plus_h[i] += h
+            x_minus_h = np.array(x)
+            x_minus_h[i] -= h
+            derivative[i] = (self.function(x_plus_h) - self.function(x_minus_h)) / (2 * h)
+        
+        return derivative
+    
     ##**************************************##
     ##INTERPOLATION (EXERCISE 2 OF LESSON 3)##
     ##**************************************##
