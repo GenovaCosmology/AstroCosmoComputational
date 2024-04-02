@@ -74,7 +74,7 @@ def rejection_sampling_nd(num_samples, n, ranges, pdf_func):
             samples.append(point)
     return np.array(samples), efficiency_counter
 
-# Metropolis-Hastings algorithm
+# Metropolis-Hastings algorithm 1 parameter
 def metropolis_hastings(target_distribution, initial_state, num_samples, proposal_distribution, proposed_sd):
     '''
     This function wants:
@@ -109,6 +109,27 @@ def metropolis_hastings(target_distribution, initial_state, num_samples, proposa
         u = np.random.rand()
         
         # Step 2d: Accept or reject the candidate based on the acceptance ratio
+        if u <= alpha:
+            current_state = proposed_state
+        
+        samples.append(current_state)
+    
+    return np.array(samples), efficiency_counter
+
+#  Metropolis-Hastings algorithm for a genral distribution
+def general_metropolis_hastings(target_distribution, proposal_distribution, initial_state, num_samples, proposal_sd, *args, **kwargs):
+    samples = [initial_state]
+    current_state = initial_state
+    efficiency_counter = 0
+    
+    for _ in range(num_samples):
+        efficiency_counter += 1
+        proposed_state = proposal_distribution(current_state, proposal_sd, *args, **kwargs)
+        numerator = target_distribution(proposed_state, *args, **kwargs) * proposal_distribution(current_state, proposal_sd, *args, **kwargs)
+        denominator = target_distribution(current_state, *args, **kwargs) * proposal_distribution(proposed_state, proposal_sd, *args, **kwargs)
+        alpha = min(1, numerator / denominator)
+        u = np.random.rand()
+        
         if u <= alpha:
             current_state = proposed_state
         
