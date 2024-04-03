@@ -11,9 +11,7 @@ def integrate_f(func,x_in=0,x_fin=0): # need to add ,deltax=0 if we want to use 
     x_fin: final point of the integration
     
     '''
-    bool =True
-    bool =callable(func)
-    if bool == True:
+    if callable(func) == True:
         #print("I'm integrating over a function, I used the quad method from scipy.")
         return integrate.quad(func, x_in, x_fin)[0]
     else:
