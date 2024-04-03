@@ -94,15 +94,18 @@ def metropolis_hastings(target_distribution, initial_state, num_samples, proposa
     current_state = initial_state
 
     efficiency_counter = 0
+    #i = 0
     
     for _ in range(num_samples):
-        efficiency_counter += 1
+
+        current_state = samples[efficiency_counter]
+
         # Step 2a: Generate a candidate x' using the proposal distribution
         proposed_state = proposal_distribution(current_state, proposed_sd)
         
         # Step 2b: Calculate the acceptance ratio alpha as in the scketch of MCMC algorithm
-        numerator = target_distribution(proposed_state) * proposal_distribution(current_state, proposed_sd)
-        denominator = target_distribution(current_state) * proposal_distribution(proposed_state, proposed_sd)
+        numerator = target_distribution(proposed_state)
+        denominator = target_distribution(current_state) 
         alpha = min(1, numerator / denominator)
         
         # Step 2c: Generate a uniform random number u  between 0 and 1 
@@ -111,8 +114,11 @@ def metropolis_hastings(target_distribution, initial_state, num_samples, proposa
         # Step 2d: Accept or reject the candidate based on the acceptance ratio
         if u <= alpha:
             current_state = proposed_state
+            #i += 1
+            efficiency_counter += 1
         
         samples.append(current_state)
+            
     
     return np.array(samples), efficiency_counter
 
@@ -124,9 +130,10 @@ def general_metropolis_hastings(target_distribution, proposal_distribution, init
     
     for _ in range(num_samples):
         efficiency_counter += 1
+        current_state = samples[efficiency_counter]
         proposed_state = proposal_distribution(current_state, proposal_sd, *args, **kwargs)
-        numerator = target_distribution(proposed_state, *args, **kwargs) * proposal_distribution(current_state, proposal_sd, *args, **kwargs)
-        denominator = target_distribution(current_state, *args, **kwargs) * proposal_distribution(proposed_state, proposal_sd, *args, **kwargs)
+        numerator = target_distribution(proposed_state, *args, **kwargs) 
+        denominator = target_distribution(current_state, *args, **kwargs) 
         alpha = min(1, numerator / denominator)
         u = np.random.rand()
         
