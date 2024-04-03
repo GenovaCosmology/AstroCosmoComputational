@@ -1,16 +1,14 @@
 import numpy as np
 import scipy as sp
 
-def metropolis_hastings(x_start, target, proposal, n_iterations, log=False):
+def metropolis_hastings(x_start, target, sigma, n_iterations):
     """
     Perform Metropolis-Hastings sampling to generate samples from a target distribution.
 
     Args:
         x_start (float): Starting value for the Markov chain.
-        target (scipy.stats frozen random var): Frozen object representing the target distribution.
-            This should be a frozen object of a distribution from the scipy.stats module.
-        proposal (scipy.stats frozen random var): Frozen object representing the proposal distribution.
-            This should be a frozen object of a distribution from the scipy.stats module.
+        target (callable): user-defined pdf
+        sigma (float): sigma of the gaussian used as proposal
         n_iterations (int): Number of iterations to run the Metropolis-Hastings algorithm.
 
     Returns:
@@ -20,17 +18,17 @@ def metropolis_hastings(x_start, target, proposal, n_iterations, log=False):
 
     sample = []             # List to store the generated samples
     current_val = x_start   # Initialize the current value of the Markov chain
-    
+
     # Run the Metropolis-Hastings algorithm for the specified number of iterations
     for i in range(1, n_iterations):
-        prop_val = proposal.rvs(current_val)  # Generate a proposal value from the proposal distribution
+        prop_val = np.random.normal(loc=current_val, scale = sigma)  # Generate a proposal value from the proposal distribution
 
-        # Compute the acceptance ratio, restricting the algorithm to symmetric proposal distributions
-        acc_ratio = np.min([1, target.pdf(prop_val) / target(current_val)])
+        # Compute the log of acceptance ratio, restricting the algorithm to symmetric proposal distributions
+        acc_ratio = np.min([0, np.log(target(prop_val)) - np.log(target(current_val))])
         
-        # Accept or reject the proposed value based on the acceptance ratio
-        if np.random.uniform() <= acc_ratio:
+        # Accept or reject the proposed value based on the log acceptance ratio
+        if np.log(np.random.uniform()) <= acc_ratio:
             current_val = prop_val  # Accept the proposed value
-            sample.append(current_val)  # Add the accepted value to the sample list
+        sample.append(current_val)  # Add the accepted value to the sample list
     
     return sample
