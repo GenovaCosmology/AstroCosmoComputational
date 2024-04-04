@@ -129,7 +129,7 @@ def general_metropolis_hastings(target_distribution, proposal_distribution, init
     efficiency_counter = 0
     
     for _ in range(num_samples):
-        efficiency_counter += 1
+        
         current_state = samples[efficiency_counter]
         proposed_state = proposal_distribution(current_state, proposal_sd, *args, **kwargs)
         numerator = target_distribution(proposed_state, *args, **kwargs) 
@@ -139,6 +139,7 @@ def general_metropolis_hastings(target_distribution, proposal_distribution, init
         
         if u <= alpha:
             current_state = proposed_state
+            efficiency_counter += 1
         
         samples.append(current_state)
     
