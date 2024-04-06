@@ -1,5 +1,6 @@
 import numpy as np
 
+'''
 #n_samples: number of points that approximate the target distribution
 #x_min, x_max: they define the range of the variable x
 #X_acc, Y_acc: arrays with accepted values
@@ -13,6 +14,23 @@ def Rejection_Sampling(n_samples,target_distribution,proposal_distribution,x_min
         if u<target_distribution(x):
             samples.append(x)
             accepted+=1
+            X_acc.append(x)
+            Y_acc.append(u)
+        else:
+            X_rej.append(x)
+            Y_rej.append(u)
+    return samples
+'''
+
+def Rejection_Sampling(n_samples,target_distribution,proposal_distribution,dim,X_acc,Y_acc,X_rej,Y_rej):
+    samples=[]
+    accepted=0
+    while accepted < n_samples:
+        x=np.random.uniform(-10,10,dim)
+        u=np.random.uniform(0,proposal_distribution(x))
+        if np.all(u < target_distribution(x)):
+            samples.append(x)
+            accepted += 1
             X_acc.append(x)
             Y_acc.append(u)
         else:
