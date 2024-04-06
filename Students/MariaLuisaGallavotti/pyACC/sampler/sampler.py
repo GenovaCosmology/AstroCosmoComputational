@@ -25,8 +25,10 @@ def Rejection_Sampling(n_samples,target_distribution,proposal_distribution,x_min
 def Rejection_Sampling(n_samples,target_distribution,proposal_distribution,dim,X_acc,Y_acc,X_rej,Y_rej):
     samples=[]
     accepted=0
+    total_proposed=0
     while accepted < n_samples:
         x=np.random.uniform(-10,10,dim)
+        total_proposed += 1
         u=np.random.uniform(0,proposal_distribution(x))
         if np.all(u < target_distribution(x)):
             samples.append(x)
@@ -36,4 +38,8 @@ def Rejection_Sampling(n_samples,target_distribution,proposal_distribution,dim,X
         else:
             X_rej.append(x)
             Y_rej.append(u)
-    return samples
+    if total_proposed!=0:
+        efficiency = accepted / total_proposed
+    else:
+        efficiency=0
+    return samples,efficiency
