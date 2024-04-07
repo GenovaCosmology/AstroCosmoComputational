@@ -1,1 +1,1 @@
-from .sampler import Rejection_Sampling
+from .sampler import Rejection_Sampling,Metropolis_Hastings
