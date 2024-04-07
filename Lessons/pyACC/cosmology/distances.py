@@ -65,6 +65,44 @@ class CosmologicalDistances:
         """
         return (1 + z) * self.comoving_distance(z, *cosmo_pars, **integ_args)
     
+    def transverse_comoving_distance(self, z, *cosmo_pars, **integ_args):
+        """
+        Computes the transverse comoving distance.
+
+        Parameters
+        ----------
+        z : float or array_like
+            Redshift.
+        *cosmo_pars : list
+            Additional arguments to be passed to the Hubble function.
+        **integ_args : dict
+            Additional arguments to be passed to the Integrate function.
+        Returns
+        -------
+        float or array_like
+            Transverse comoving distance.
+        """
+        return self.comoving_distance(z, *cosmo_pars, **integ_args)
+    
+    def isotropic_volume_distance(self, z, *cosmo_pars, **integ_args):
+        """
+        Computes the isotropic volume distance.
+
+        Parameters
+        ----------
+        z : float or array_like
+            Redshift.
+        *cosmo_pars : list
+            Additional arguments to be passed to the Hubble function.
+        **integ_args : dict
+            Additional arguments to be passed to the Integrate function.
+        Returns
+        -------
+        float or array_like
+            Isotropic volume distance.
+        """
+        return np.power( z * self.transverse_comoving_distance(z, *cosmo_pars, **integ_args)**2 * self.hubble_distance(z, *cosmo_pars, **integ_args), 1./3)
+    
     def angular_diameter_distance(self, z, *cosmo_pars, **integ_args):
         """
         Computes the angular diameter distance.
@@ -82,7 +120,50 @@ class CosmologicalDistances:
         float or array_like
             Angular diameter distance.
         """
+        
         return self.comoving_distance(z, *cosmo_pars, **integ_args) / (1 + z)
+    
+    def hubble_distance(self, z, *cosmo_pars, **integ_args):
+        """
+        Computes the Hubble distance.
+
+        Parameters
+        ----------
+        z : float or array_like
+            Redshift.
+        *cosmo_pars : list
+            Additional arguments to be passed to the Hubble function.
+        **integ_args : dict
+            Additional arguments to be passed to the Integrate function.
+        Returns
+        -------
+        float or array_like
+            Hubble distance.
+        """
+        if len(cosmo_pars) !=0:
+            return speed_of_light/1.e3 / self.hubble_function(z, *cosmo_pars)
+        else:
+            return speed_of_light/1.e3 / self.hubble_function(z, *self.cosmo_pars)
+    
+    def isotropic_volume_distance(self, z, *cosmo_pars, **integ_args):
+        """
+        Computes the isotropic volume distance.
+
+        Parameters
+        ----------
+        z : float or array_like
+            Redshift.
+        *cosmo_pars : list
+            Additional arguments to be passed to the Hubble function.
+        **integ_args : dict
+            Additional arguments to be passed to the Integrate function.
+        Returns
+        -------
+        float or array_like
+            Isotropic volume distance.
+        """
+        return (4 * np.pi * (self.comoving_distance(z, *cosmo_pars, **integ_args) ** 3) / 3)
+    
     
     def distance_modulus(self, z, *cosmo_pars, **integ_args):
         """
