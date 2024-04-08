@@ -49,4 +49,4 @@ class CosmologicalDistances:
 
                 return m
         
-        def luminosity_distance(self, z):
+        #def luminosity_distance(self, z):
