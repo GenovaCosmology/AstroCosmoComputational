@@ -10,7 +10,7 @@ def intgr(f, x1, x2, args=(), full_output=0, epsabs=1.49e-08, epsrel=1.49e-08, l
 
     if bool==True:
         #print("The integration is via scipy.integrate.quad")
-        return int.quad(f, x1, x2, args=(), full_output=0, epsabs=1.49e-08, epsrel=1.49e-08, limit=50, points=None, weight=None, wvar=None, wopts=None, maxp1=50, limlst=50, complex_func=False)
+        return int.quad(f, x1, x2, args=(), full_output=0, epsabs=1.49e-08, epsrel=1.49e-08, limit=50, points=None, weight=None, wvar=None, wopts=None, maxp1=50, limlst=50, complex_func=False)[0]
     else:
         #print("The integration is via the trapezoid method")
         x = np.linspace(x1, x2, f.size)

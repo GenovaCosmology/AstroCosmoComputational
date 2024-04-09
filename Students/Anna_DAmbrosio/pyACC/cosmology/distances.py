@@ -59,11 +59,11 @@ def comoving_distance(z,H_0=67.0, O_m=0.32, O_gam=0, O_nu=0, O_de=0.68, w_de=-1)
     '''    
     integrand = lambda x: c/hubble(x, H_0, O_m, O_gam, O_nu, O_de, w_de)
     if type(z)==float or type(z)==int:
-        return intgr(integrand, 0.0, z)[0]
+        return intgr(integrand, 0.0, z)
     else:
         integral = np.zeros(z.size)
         for i,zi in enumerate(z):
-            integral[i] = intgr(integrand, 0.0, zi)[0]
+            integral[i] = intgr(integrand, 0.0, zi)
         return integral
     
 def comoving_distance_transverse(z,H_0=67.0, O_m=0.32, O_gam=0, O_nu=0, O_de=0.68, w_de=-1):
