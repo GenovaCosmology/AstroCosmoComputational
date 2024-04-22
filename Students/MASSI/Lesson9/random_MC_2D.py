@@ -100,9 +100,6 @@ dx = dy = 0.5 * np.ones_like(zpos)
 dz = hist.ravel()
 ax.bar3d(xpos, ypos, zpos, dx, dy, dz, zsort='average')
 
-# Plot analytical distribution
-ax.plot_surface(X, Y, *Z, cmap='viridis', alpha=1)
-
 
 # Add labels and title
 ax.set_xlabel('X')
