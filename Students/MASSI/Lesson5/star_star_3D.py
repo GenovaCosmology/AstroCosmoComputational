@@ -10,6 +10,18 @@ G=6.674e-11  # m^3/kg*s^2
 M1=3e28  # kg
 M2=2e28  # kg
 
+#number of years
+N=11
+
+# Posizione iniziale
+Pos1 = np.array([-10e10,5e10,0])
+Pos2 = np.array([5e10,0,-5e10])
+
+
+# initial velocity
+V1=np.array([2000,0,100])    # m/s
+V2=np.array([0,-2500,100])   # m/s
+
 # Massa ridotta
 mu = (M1*M2)/(M1 + M2)
 
@@ -37,21 +49,11 @@ def eulero(pos1, vel1, pos2, vel2, dt):
 
 #time step
 dt=86400  #seconds in one day
-#number of years
-N=10
 #total time for simulation in seconds
 T=N*365.25*dt  #seconds in N years
 time=np.arange(0,T,dt)
 
 
-# Posizione iniziale
-Pos1 = np.array([-10e10,5e10,0])
-Pos2 = np.array([5e10,0,-5e10])
-
-
-# initial velocity
-V1=np.array([2000,0,100])    # m/s
-V2=np.array([0,-2500,100])   # m/s
 
 
 # lists to store position, velocity, and acceleration for plotting
@@ -112,7 +114,7 @@ acc2=np.array(acc2)
 
 
 # Plot 3D trajectory
-fig = plt.figure()
+fig = plt.figure(figsize=(10, 8))
 ax = fig.add_subplot(111, projection='3d')
 ax.plot(posx1, posy1, posz1, c='red', label='Star 1')
 ax.plot(posx2, posy2, posz2, c='orange', label='Star 2')
@@ -145,7 +147,7 @@ for i in range (len(posx1)):
     ax.set_zlabel('Z')
     ax.set_title('3D Scatter Plot (Frame {})'.format(i))
 
-    if i % 25 == 0:
+    if (i % 30 == 0):
         ax.scatter(posx1[i], posy1[i], posz1[i], c='red',s=5, label='Star 1')
         ax.scatter(posx2[i], posy2[i], posz2[i], c='orange',s=5, label='Star2')
         ax.scatter(posx_cm[i], posy_cm[i], posz_cm[i], c='black',s=2, label='Center of mass')
@@ -156,13 +158,12 @@ plt.show()
 
 
 # plotting projection xy
-
 plt.figure(figsize=(8,8))
 plt.title('proiezione sul piano XY')
 for i in range (0,len(posx1)):
     plt.xlabel("X")
     plt.ylabel("Y")
-    if i % 20 == 0:
+    if i % 25 == 0:
         plt.scatter(posx1[i],posy1[i],s=5,c='red')    # s=size punti
         plt.scatter(posx2[i],posy2[i],s=5,c='orange')    # s=size punti
         plt.pause(0.01)   # per avere i punti in "tempo reale"
@@ -170,13 +171,12 @@ plt.show()
 
 
 # plotting projection xz
-
 plt.figure(figsize=(8,8))
 plt.title('proiezione sul piano ZX')
 for i in range (0,len(posx1)):
     plt.xlabel("Z")
     plt.ylabel("X")
-    if i % 20 == 0:
+    if i % 25 == 0:
         plt.scatter(posz1[i],posx1[i],s=5,c='red')    # s=size punti
         plt.scatter(posz2[i],posx2[i],s=5,c='orange')    # s=size punti
         plt.pause(0.01)   # per avere i punti in "tempo reale"
