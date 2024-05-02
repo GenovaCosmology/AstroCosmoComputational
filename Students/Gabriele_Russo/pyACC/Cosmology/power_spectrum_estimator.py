@@ -3,8 +3,9 @@ TEST PROGRAM for this function IMPLEMENTED in exercise1.ipynb Lesson 8
 '''
 import numpy as np
 import math as m
-import matplotlib as plt
-def power_spectrum_estimator(Delta_X, Delta_Y, Delta_Z, delta, n):
+import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
+def power_spectrum_estimator_fun(Delta_X, Delta_Y, Delta_Z, delta, n):
     '''
     Power spectrum Estimator Function.
     Inputs:
@@ -16,6 +17,8 @@ def power_spectrum_estimator(Delta_X, Delta_Y, Delta_Z, delta, n):
     - n      : int, for rescaling binning pf K_modulus as multiples of the foundamental frequency
 
     Output:
+    - histogramm of K modulus 
+    - power spectrum plot
     - points_power_spectrum: numpy array containing the power spectrum
     '''
     #Computing step along axis
