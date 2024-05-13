@@ -27,7 +27,7 @@ fig = plt.figure()
 ax = fig.add_subplot(111, projection='3d')
 
 # Plot the densities
-ax.scatter(X, Y, Z, D, cmap='viridis')
+ax.scatter(X, Y, Z, c=D, cmap='viridis')
 
 # Set labels
 ax.set_xlabel('X')
@@ -42,15 +42,18 @@ cbar.set_label('Density')
 plt.show()
 
 # Compute the Fourier transform
-fourier_transform = np.fft.fft2(D)
+fourier_transform = np.fft.rfftn(D)
+#shape=fourier_transform.shape()
 
-# Shift the zero frequency component to the center
-fourier_transform_shifted = np.fft.fftshift(fourier_transform)
+# Get the magnitude of Fourier coefficients
+magnitude = np.abs(fourier_transform)
 
-# Plot the Fourier transform
-plt.imshow(np.abs(fourier_transform_shifted), cmap='viridis')
-plt.colorbar()
-plt.title('Fourier Transform of Constant Density Grid')
-plt.xlabel('Frequency (kx)')
-plt.ylabel('Frequency (ky)')
+# Plot magnitude without log scale
+ax.scatter(X.flatten(), Y.flatten(), Z.flatten(), c=magnitude.flatten(), cmap='viridis')
+
+ax.set_xlabel('X')
+ax.set_ylabel('Y')
+ax.set_zlabel('Z')
+ax.set_title('3D Fourier Transform of Grid')
+
 plt.show()
