@@ -97,13 +97,23 @@ class Funct:
         if self.Nvar==1:
             if type(x_in)!= float or type(x_fin)!= float:
                 if type(x_in)!= int or type(x_fin)!= int:
-                    raise TypeError("x_in and x_fin must be floats or ints!")
-                if callable(self.func)== True:
+                    if type(x_in)!= np.ndarray or type(x_fin)!= np.ndarray:
+                        raise TypeError("x_in and x_fin must be floats, ints or array with the same size!")
+            if callable(self.func)== True:
+                if type(x_in)== float or type(x_in)== int or type(x_fin)== float or type(x_fin)== int:
                     return integrate_f(self.func, x_in, x_fin)
-                if isinstance(self.func,sym.Basic)==True:
-                    # it will return a sympy object, it won't be evaluated
-                    integral= sym.lambdify(self.symbols,sym.integrate(self.func, self.symbols))
-                    return integral(x_fin)-integral(x_in)
+                if type(x_in)== np.ndarray or type(x_fin)== np.ndarray:
+                    if x_fin.size!=x_in.size:
+                        raise TypeError("x_in and x_fin must have same size!")
+                    else:
+                        integral=[]
+                        for i,xi in enumerate (x_in):
+                            integral.append(integrate_f(self.func, xi, x_fin[i]))
+                        return np.array(integral)
+            if isinstance(self.func,sym.Basic)==True:
+                # it will return a sympy object, it won't be evaluated
+                integral= sym.lambdify(self.symbols,sym.integrate(self.func, self.symbols))
+                return integral(x_fin)-integral(x_in)
         if self.Nvar>1:
             if x_fin.size!=x_in.size or x_in.size!=self.Nvar:
                 raise TypeError("x_in and x_fin must have same size = Nvar!")
