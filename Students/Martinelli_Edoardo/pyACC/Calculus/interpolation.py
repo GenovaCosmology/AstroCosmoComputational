@@ -10,6 +10,7 @@ from sympy import *
 import sympy as sym
 
 
+# Interpolation class
 class INTERP:
 
     def __init__(self, func):
@@ -77,3 +78,37 @@ class INTERP:
             return interp_return_ev_list, error_list, th_error_list
         else:
             return interp_return_list, error_list, th_error_list
+        
+# the implementation above is useful but IT'S not a class method!!!
+
+def interp3D_grid(data,size,Nbins):
+    '''
+    This function interpolates a 3D grid of data with a given size and number of bins.
+
+    Parameters:
+    - data: set of 3D data points (numpy array) (Nx3)
+    - size: size of the grid (float)
+    - Nbins: number of bins (int)
+
+    Returns:
+    - pdf: 3D grid of interpolated data (numpy array) (Nbins+1xNbins+1xNbins+1)
+    '''
+    spacing = size/Nbins
+    Npoints = data.shape[0]
+    pdf = np.zeros((Nbins+1,Nbins+1,Nbins+1))
+    # pdf calculation
+    for i in range(Npoints):
+        dataX=data[i,0]
+        dataY=data[i,1]
+        dataZ=data[i,2]
+        idx=int(dataX/spacing)
+        idy=int(dataY/spacing)
+        idz=int(dataZ/spacing)
+        if (dataX/spacing - int(dataX/spacing)) >= 0.5:
+            idx=int(dataX/spacing)+1
+        if (dataY/spacing - int(dataY/spacing)) >= 0.5:
+            idy=int(dataY/spacing)+1
+        if (dataZ/spacing - int(dataZ/spacing)) >= 0.5:
+            idz=int(dataZ/spacing)+1
+            pdf[idx,idy,idz]+=1
+    return pdf/Npoints
