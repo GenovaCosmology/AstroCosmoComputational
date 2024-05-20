@@ -55,12 +55,12 @@ def get_power_spectrum(delta_x, side, spacing, n_kF=1):
     knorm = np.sqrt(KX**2+KY**2+KZ**2)
 
     # get the density field in Fourier space
-    delta_k = np.fft.rfftn(delta_x)/Volume
+    delta_k = np.fft.rfftn(delta_x, norm='backward')*spacing**3
 
     # compute the power spectrum
-    delta_k_sq = Volume*np.abs(delta_k)**2
+    delta_k_sq = np.abs(delta_k)**2
 
-    pks = delta_k_sq.flatten()
+    pks = delta_k_sq.flatten()/Volume
 
     # binning
 

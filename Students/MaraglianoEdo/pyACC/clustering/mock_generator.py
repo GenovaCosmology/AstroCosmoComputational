@@ -22,7 +22,7 @@ def generate_gaussian_map(pk_func, side, spacing):
     kx = np.fft.fftshift(kx)
     ky = np.fft.fftshift(ky)
 
-    KX, KY, KZ = np.meshgrid(kx,ky,kz, indexing='ij')
+    KX, KY, KZ = np.meshgrid(kx,ky,kz, indexing='xy')
 
     knorm = np.sqrt(KX**2+KY**2+KZ**2)
     pks = pk_func(knorm)
@@ -36,6 +36,10 @@ def generate_gaussian_map(pk_func, side, spacing):
 
     delta_k = delta_k_norm*(np.cos(phase)+1j*np.sin(phase))
 
-    delta_x = np.fft.irfftn(delta_k)
+    delta_x = np.fft.irfftn(delta_k, norm='backward')/spacing**3
 
     return delta_k, delta_x
+
+
+def generate_log_normal_map(pk_func, side, spacing):
+    pass
