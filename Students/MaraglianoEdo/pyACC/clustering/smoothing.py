@@ -40,3 +40,29 @@ def cic_interpolator(particles, masses, grid_shape):
 
     return rho
 
+
+def nearest_cell_interpolator(particles, masses, grid_shape):
+    """
+    Inputs:
+    particles: 2D array of positions (len(masses), 3)
+    masses: 1D array of masses
+    grid_shape: tuple of 3 integers defining the shape of the grid (nx, ny, nz)
+
+    Returns:
+    rho: 3D array of density values with shape grid_shape
+    """
+    nx, ny, nz = grid_shape
+    rho = np.zeros(grid_shape, dtype=np.float64)
+
+    for p, m in zip(particles, masses):
+        i, j, k = np.rint(p).astype(int)
+
+        # Ensure indices are within bounds with periodic boundary conditions
+        i %= nx
+        j %= ny
+        k %= nz
+
+        # Add contribution to the nearest grid point
+        rho[i, j, k] += m
+
+    return rho
