@@ -3,7 +3,41 @@ from scipy.spatial import cKDTree
 from tqdm.notebook import tqdm
 
 def get_power_spectrum(delta_x, side, spacing, n_kF=1):
+    """
+    Computes the power spectrum of a 3D density field.
 
+    Parameters:
+    -----------
+    delta_x : ndarray
+        A 3D array representing the density contrast field.
+    side : float
+        The physical size of the simulation box (e.g., in Mpc/h).
+    spacing : float
+        The spatial resolution of the grid (e.g., in Mpc/h).
+    n_kF : int, optional
+        The number of fundamental modes per bin for the power spectrum. Default is 1.
+
+    Returns:
+    --------
+    k_bin : ndarray
+        1D array of wavenumber bins' central values.
+    pk_meas : ndarray
+        1D array of the measured power spectrum values corresponding to `k_bin`.
+
+    Notes:
+    ------
+    This function assumes periodic boundary conditions and uses the Fast Fourier Transform (FFT) 
+    to compute the Fourier transform of the input density field. The power spectrum is calculated 
+    by binning the squared magnitudes of the Fourier modes.
+
+    Example:
+    --------
+    >>> import numpy as np
+    >>> delta_x = np.random.randn(64, 64, 64)
+    >>> side = 100.0
+    >>> spacing = 1.5625
+    >>> k_bin, pk_meas = get_power_spectrum(delta_x, side, spacing)
+    """
     Volume = side**3
     n_cell = int(side//spacing)
 
@@ -51,8 +85,36 @@ def get_power_spectrum(delta_x, side, spacing, n_kF=1):
 
 def count_pairs(data_1, r_edges, data_2 = None ):
     """
-    Count auto/cross pairs between saple 1 and 2
-    with a given separation binning
+    Count auto-pairs or cross-pairs between two sets of points with a given separation binning.
+
+    Parameters:
+    -----------
+    data_1 : ndarray
+        A 2D array of shape (N1, 3) containing the 3D coordinates of the first set of points.
+    r_edges : ndarray
+        A 1D array defining the edges of the separation bins.
+    data_2 : ndarray, optional
+        A 2D array of shape (N2, 3) containing the 3D coordinates of the second set of points.
+        If not provided, the function will count auto-pairs within `data_1`.
+
+    Returns:
+    --------
+    pairs : ndarray
+        A 1D array of length `len(r_edges) - 1` containing the counts of pairs for each separation bin.
+
+    Notes:
+    ------
+    - When computing auto-pairs (i.e., `data_2` is `None`), the function only considers pairs (i, j) with i < j
+      to avoid double counting and save computational time.
+    - The function uses `cKDTree` from `scipy.spatial` to efficiently find neighboring points within the specified
+      separation bins.
+
+    Example:
+    --------
+    >>> import numpy as np
+    >>> data_1 = np.random.rand(100, 3)
+    >>> r_edges = np.linspace(0, 1, 11)
+    >>> pairs = count_pairs(data_1, r_edges)
     """
 
     # when I am computing auto pairs, I only cycle on i1 < i2
