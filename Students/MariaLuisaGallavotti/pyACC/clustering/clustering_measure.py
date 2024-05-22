@@ -56,7 +56,7 @@ def count_pairs(data_1,r_edges,data_2=None):
         neighbours_idx=np.array(tree.query_ball_point(data_1[i],r_edges[-1])) #from the i-th particle, I look for all the neighbors within r_edges[-1]
         if auto:
             cut_neighbours=np.where(neighbours_idx>i)[0]
-            neighbours_idx=neighbours_idx[cut_neighbours>i] #I remove the i-th particle
+            neighbours_idx=neighbours_idx[cut_neighbours] #I remove the i-th particle
         #now I have the center and all of its neighbors, I want to know the separation
         separations=np.linalg.norm(tree.data[neighbours_idx]-data_1[i],axis=1)
         pairs+=np.histogram(separations,bins=r_edges)[0] #the pair vector is updated with the number of pairs in each bin
