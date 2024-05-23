@@ -1,5 +1,6 @@
 import numpy as np
 from scipy.spatial import cKDTree
+#from tqdm.notebook import tqdm
 
 def get_power_spectrum(delta_x, side, spacing, n_kF=1):
     '''
@@ -68,17 +69,18 @@ def count_pairs(data_1, r_edges, data_2=None):
 
     pairs = np.zeros(len(r_edges)-1)
 
+    #for i in tqdm(range(len(data_1))):
     for i in range(len(data_1)):
 
-        neighbours = np.array(tree.query_ball_point(data_1[i], r_edges[-1])) # tree ha in sè tutto catalogo,
+        neighbours_idx = np.array(tree.query_ball_point(data_1[i], r_edges[-1])) # tree ha in sè tutto catalogo,
         #query_ball_point restituisce indici delle particelle vicine a quella che sto considerando 
         # dal centro della particella i esima che stiamo considerando; la funzione rende gli indici dei primi vicini
 
         if auto:
             cut_neighbours = np.where(neighbours_idx>i)[0]
-            neighbours_idx = neighbours_idx[cut_neighbours>i]
+            neighbours_idx = neighbours_idx[cut_neighbours]
 
-        separations = np.linalg.norm(tree.data[neighbours_idx]-data_1[i], axis =1)
+        separations = np.linalg.norm(tree.data[neighbours_idx]-data_1[i], axis= 1)
 
         pairs += np.histogram(separations, bins=r_edges)[0]
 
