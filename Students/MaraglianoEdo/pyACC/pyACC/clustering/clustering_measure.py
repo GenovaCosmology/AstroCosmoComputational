@@ -50,7 +50,7 @@ def get_power_spectrum(delta_x, side, spacing, n_kF=1):
     kx = np.fft.fftshift(kx)
     ky = np.fft.fftshift(ky)
 
-    KX, KY, KZ = np.meshgrid(kx,ky,kz, indexing='ij')
+    KX, KY, KZ = np.meshgrid(kx,ky,kz, indexing='xy')
 
     knorm = np.sqrt(KX**2+KY**2+KZ**2)
 
@@ -142,3 +142,57 @@ def count_pairs(data_1, r_edges, data_2 = None ):
             pairs += np.histogram(separations, bins=r_edges)[0]
 
     return pairs
+
+
+def get_xi_LS(data_1, r_edges, data_2):
+    """
+    Compute the Landy-Szalay estimator for the two-point correlation function.
+
+    Parameters:
+    -----------
+    data_1 : ndarray
+        A 2D array of shape (N1, 3) containing the 3D coordinates of the first set of points.
+    r_edges : ndarray
+        A 1D array defining the edges of the separation bins.
+    data_2 : ndarray
+        A 2D array of shape (N2, 3) containing the 3D coordinates of the second set of points.
+    
+    Returns:
+    --------
+    r : ndarray
+        1D array of the central values of the separation bins.
+    xi_ls : ndarray
+        1D array of the Landy-Szalay estimator values corresponding to `r`.
+    
+    Notes:
+    ------
+    The Landy-Szalay estimator is defined as:
+
+    .. math::
+        \xi_{LS}(r) = \frac{DD(r) - 2DR(r) + RR(r)}{RR(r)}
+
+    where DD(r), DR(r), and RR(r) are the counts of data-data, data-random, and random-random pairs
+    within a given separation bin, respectively.
+
+    Example:
+    --------
+    >>> import numpy as np
+    >>> data_1 = np.random.rand(100, 3)
+    >>> data_2 = np.random.rand(100, 3)
+    >>> r_edges = np.linspace(0, 1, 11)
+    >>> r, xi_ls = get_xi_LS(data_1, r_edges, data_2)
+    """
+
+    # count pairs for data_1
+    DD = count_pairs(data_1, r_edges)/(len(data_1)*(len(data_1)-1)/2)
+
+    # count pairs for data_2
+    RR = count_pairs(data_2, r_edges)/(len(data_2)*(len(data_2)-1)/2)
+
+    # count cross pairs
+    DR = count_pairs(data_1, r_edges, data_2)/(len(data_1)*len(data_2))
+
+    r = (r_edges[1:] + r_edges[:-1]) / 2
+    xi_ls = (DD - 2 * DR + RR) / RR
+
+    return r, xi_ls

@@ -3,22 +3,16 @@ import scipy as sp
 
 def rejection_sampling(target, domain, n_samples, proposal=None):
     """
-    Perform rejection sampling to sample from a probability density function (PDF).
+    Generate samples using rejection sampling.
 
     Parameters:
-    - target (callable): The PDF function from which samples are to be generated.
-    - domain (array_like): The domain (range of values) over which to sample the PDF.
-    - n_samples (int): The number of samples to generate.
-    - proposal (scipy.stats frozen random variable, optional): The proposed distribution for sampling.
-      Default is uniform distribution over the specified domain.
+        target (callable): The target probability density function.
+        domain (array_like): The domain of the target PDF.
+        n_samples (int): The number of samples to generate.
+        proposal (scipy.stats.rv_continuous): The proposal distribution. If None, a uniform distribution is used.
 
     Returns:
-    - sample (numpy.ndarray): An array containing accepted samples from the target PDF.
-
-    Notes:
-    - The function performs rejection sampling by generating samples from the proposal distribution
-      and accepting them based on the ratio of the target PDF to the proposal PDF.
-    - The acceptance rate is printed to the console for monitoring purposes.
+        numpy.ndarray: Generated samples.
     """
 
     # Set default proposal distribution if not provided
