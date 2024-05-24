@@ -169,7 +169,7 @@ def get_xi_LS(data_1, r_edges, data_2):
     The Landy-Szalay estimator is defined as:
 
     .. math::
-        \xi_{LS}(r) = \frac{DD(r) - 2DR(r) + RR(r)}{RR(r)}
+        \\xi_{LS}(r) = \\frac{DD(r) - 2DR(r) + RR(r)}{RR(r)}
 
     where DD(r), DR(r), and RR(r) are the counts of data-data, data-random, and random-random pairs
     within a given separation bin, respectively.
