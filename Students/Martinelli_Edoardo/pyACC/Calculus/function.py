@@ -56,6 +56,8 @@ class Funct:
         Parameters:
         x: point where the function is computed (float, array or matrix (rows as array of each variables))
         '''
+        if self.Nvar==0: # little cheat fro project implementation
+            return self.func(*x)
         if self.Nvar==1:
             if callable(self.func)== True:
                 return self.func(x)

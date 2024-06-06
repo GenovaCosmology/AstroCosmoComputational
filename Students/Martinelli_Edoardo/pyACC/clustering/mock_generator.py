@@ -39,3 +39,39 @@ def generate_gaussian_map(pk_funck,side,spacing):
     return delta_k,delta_x
 
 
+def poisson_sample_map(delta_x,side,spacing,N_objects,seed=666):
+
+    '''
+    Poisson sample a given density field. From the density field we generate 
+    a number of objects in each cell following a Poisson distribution. Then we
+    generate the objects coordinates in each cell following a uniform distribution.
+    '''
+    
+    np.random.seed(seed)
+
+    # compute grid quantities
+    Volume = side**3
+    n_bar = N_objects/Volume # mean density
+    cell_volume = spacing**3
+    n_cells = int(side/spacing)
+
+    # from delta_x to density
+    n_x = n_bar*(1+delta_x)
+
+    # from number density to number of objects
+    Nobj_x = n_x*cell_volume
+
+    # Poisson sampling
+    Nobj_x_sample = np.random.poisson(Nobj_x)
+
+    # generate points
+    points=[]
+    for i in range(n_cells):
+        x_min,x_max = i*spacing,(i+1)*spacing # X boundaries of i-th cell
+        for j in range(n_cells):
+            y_min,y_max = j*spacing,(j+1)*spacing # Y boundaries of j-th cell
+            for k in range(n_cells):
+                z_min,z_max = k*spacing,(k+1)*spacing # Z boundaries of k-th cell
+                if Nobj_x_sample[i,j,k]>0:
+                    points.extend(np.random.uniform(size=(Nobj_x_sample[i,j,k],3),low=[x_min,y_min,z_min],high=[x_max,y_max,z_max]))
+    return np.array(points)
