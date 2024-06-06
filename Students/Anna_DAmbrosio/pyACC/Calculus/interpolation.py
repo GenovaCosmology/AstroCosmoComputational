@@ -162,3 +162,48 @@ class Interpolation:
             list_delta.append(delta_f)
 
         return list_delta
+    
+
+def inter_grid(data, size, N_bin):
+    '''
+    Parameters
+    data: array
+          Nx3 distribution of pointa
+    size: int
+          size of the box filled with the points in dist
+    N_bin: int
+           number of bins in which each direction of the volume considered is devided
+           
+    Return
+    pdf_norm: array
+              normalized probability density function of the points in dist interpolated on the grid of volume size**3 and spacing size/N_bin
+    '''
+
+    spacing = size/N_bin
+    N = data.shape[0]
+
+    pdf = np.zeros((N_bin+1, N_bin+1, N_bin+1))
+
+    for i in range(N):
+        datax = data[i,0]
+        datay = data[i,1]
+        dataz = data[i,2]
+
+        idx = int(datax/spacing)
+        idy = int(datay/spacing)
+        idz = int(dataz/spacing)
+
+        if (datax/spacing - int(datax/spacing)) < 0.5:
+            idx = int(datax/spacing) + 1
+
+        if (datay/spacing - int(datay/spacing)) < 0.5:
+            idy = int(datay/spacing) + 1
+
+        if (dataz/spacing - int(dataz/spacing)) < 0.5:
+            idz = int(dataz/spacing) + 1
+
+        pdf[idx, idy, idz] = pdf[idx, idy, idz] + 1
+
+    pdf_norm = pdf/N
+
+    return pdf_norm

@@ -1,6 +1,7 @@
 import numpy as np
 import scipy as sp
 from .function import Function
+from tqdm import tqdm
 
 def Rejection(target, x_in, x_f, N, type='flat'):
     pdf = Function(target)
@@ -50,7 +51,7 @@ def Rejection(target, x_in, x_f, N, type='flat'):
 
     return np.array(sample), (np.array(sample)).size/N, proposal
 
-def Metropolis_Hastings(target, x0, N, cov=0, ds=0, type='flat'):
+def Metropolis_Hastings(target, x0, N, cov=0, ds=0, type='flat', log=False):
     '''
     Target must be normalized
     
@@ -64,37 +65,60 @@ def Metropolis_Hastings(target, x0, N, cov=0, ds=0, type='flat'):
 
     if type=='gaussian':
        
-        for i in range(N):
-            cand = np.random.default_rng().multivariate_normal(x_new,cov)   # generation of new value following a multivariate gaussian distribution
-            ratio = pdf.Value(cand)/pdf.Value(x_new)    # acceptance ratio
+        for i in tqdm(range(N), desc='Metropolis-Hastings (gaussian)'):
+            if log==True:
+                cand = np.random.default_rng().multivariate_normal(x_new,cov)   # generation of new value following a multivariate gaussian distribution
+                if pdf.Value(cand)==0:
+                    ratio = -np.inf
+                else:
+                    ratio = pdf.Value(cand) - pdf.Value(x_new)   # acceptance ratio
 
-            alpha = min(1,ratio)
+                alpha = min(0,ratio)
 
-            u = np.random.uniform(0.0, 1.0)
+                u = np.log(np.random.uniform(0.0, 1.0))
+
+            else:            
+                cand = np.random.default_rng().multivariate_normal(x_new,cov)   # generation of new value following a multivariate gaussian distribution
+                ratio = pdf.Value(cand)/pdf.Value(x_new)    # acceptance ratio
+
+                alpha = min(1,ratio)
+
+                u = np.random.uniform(0.0, 1.0)
 
             if u<=alpha:
                 x_new = cand
-                n_acc = n_acc + 1 
-
+                n_acc = n_acc + 1
+                
             sample.append(x_new)
-            
+
+                   
     if type=='flat':
        
     # ds is an array of the size of x0 containing the steps size for each variable
+        for i in tqdm(range(N), desc='Metropolis-Hastings (flat)'):
+            if log==True:        
+                cand = x_new + ds*np.random.uniform(-1, 1, x_new.size)  # generation of new value following a multivariate gaussian distribution
+                if pdf.Value(cand)==0:
+                    ratio = -np.inf
+                else:
+                    ratio = pdf.Value(cand) - pdf.Value(x_new)    # acceptance ratio
 
-        for i in range(N):
-            cand = x_new + ds*np.random.uniform(-1, 1, x_new.size)   # generation of new value following a multivariate gaussian distribution
-              
-            ratio = pdf.Value(cand)/pdf.Value(x_new)    # acceptance ratio
+                alpha = min(0,ratio)
 
-            alpha = min(1,ratio)
+                u = np.log(np.random.uniform(0.0, 1.0))
 
-            u = np.random.uniform(0.0, 1.0)
+            else:
+                cand = x_new + ds*np.random.uniform(-1, 1, x_new.size)  # generation of new value following a multivariate gaussian distribution
+                ratio = pdf.Value(cand)/pdf.Value(x_new)    # acceptance ratio
+
+                alpha = min(1,ratio)
+
+                u = np.random.uniform(0.0, 1.0)
 
             if u<=alpha:
                 x_new = cand
                 n_acc = n_acc + 1 
-    
+        
             sample.append(x_new)    # addition of the new value to the sample
     
 
