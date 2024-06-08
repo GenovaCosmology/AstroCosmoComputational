@@ -1,0 +1,11 @@
+﻿Redshift,Distance,Error,Kind,Name
+0.15,4.47,0.17,D_V/r_d,MGS
+0.38,10.23,0.17,D_M/r_d,BOSS DR12
+0.38,25.00,0.76,D_H/r_d,BOSS DR12
+0.51,13.36,0.21,D_M/r_d,BOSS DR12
+0.51,22.33,0.58,D_H/r_d,BOSS DR12
+0.70,17.86,0.33,D_M/r_d,eBOSS LRG
+0.70,19.33,0.53,D_H/r_d,eBOSS LRG
+0.85,18.33,0.06,D_V/r_d,eBOSS ELG
+1.48,30.69,0.80,D_M/r_d,eBOSS Quasar
+1.48,13.26,0.55,D_H/r_d,eBOSS Quasar
