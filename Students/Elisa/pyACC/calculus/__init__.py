@@ -1,2 +1,4 @@
 from .Integrate import *
-from .Function import *
+from .Operations import *
+from .Interpolation import *
+from .Prova import *
