@@ -1,0 +1,59 @@
+The first 37 parameters are the distance moduli of the Cepheid host galaxies.
+Printed with theire errors, they are:
+Distance modulus of Cepheid host galaxy 1: 29.159595 +/- 0.038751222 mag
+Distance modulus of Cepheid host galaxy 2: 32.91562 +/- 0.0821192 mag
+Distance modulus of Cepheid host galaxy 3: 32.82226 +/- 0.08768118 mag
+Distance modulus of Cepheid host galaxy 4: 32.61782 +/- 0.06007673 mag
+Distance modulus of Cepheid host galaxy 5: 34.49344 +/- 0.11935783 mag
+Distance modulus of Cepheid host galaxy 6: 32.509018 +/- 0.050678033 mag
+Distance modulus of Cepheid host galaxy 7: 31.325468 +/- 0.05006326 mag
+Distance modulus of Cepheid host galaxy 8: 31.295164 +/- 0.03572855 mag
+Distance modulus of Cepheid host galaxy 9: 31.460842 +/- 0.05163338 mag
+Distance modulus of Cepheid host galaxy 10: 31.465288 +/- 0.054636683 mag
+Distance modulus of Cepheid host galaxy 11: 32.011444 +/- 0.060659125 mag
+Distance modulus of Cepheid host galaxy 12: 32.627865 +/- 0.11484339 mag
+Distance modulus of Cepheid host galaxy 13: 32.391655 +/- 0.09661901 mag
+Distance modulus of Cepheid host galaxy 14: 33.09086 +/- 0.085483 mag
+Distance modulus of Cepheid host galaxy 15: 32.403145 +/- 0.05642766 mag
+Distance modulus of Cepheid host galaxy 16: 32.14255 +/- 0.04563474 mag
+Distance modulus of Cepheid host galaxy 17: 31.944338 +/- 0.033331595 mag
+Distance modulus of Cepheid host galaxy 18: 32.789978 +/- 0.063422315 mag
+Distance modulus of Cepheid host galaxy 19: 31.707285 +/- 0.067623846 mag
+Distance modulus of Cepheid host galaxy 20: 31.638231 +/- 0.056134418 mag
+Distance modulus of Cepheid host galaxy 21: 31.633867 +/- 0.08006151 mag
+Distance modulus of Cepheid host galaxy 22: 30.82395 +/- 0.108035184 mag
+Distance modulus of Cepheid host galaxy 23: 30.835545 +/- 0.047975782 mag
+Distance modulus of Cepheid host galaxy 24: 31.78742 +/- 0.071356535 mag
+Distance modulus of Cepheid host galaxy 25: 32.546867 +/- 0.14704429 mag
+Distance modulus of Cepheid host galaxy 26: 33.18732 +/- 0.04850857 mag
+Distance modulus of Cepheid host galaxy 27: 31.86558 +/- 0.04537571 mag
+Distance modulus of Cepheid host galaxy 28: 30.508446 +/- 0.042338464 mag
+Distance modulus of Cepheid host galaxy 29: 32.915977 +/- 0.10319265 mag
+Distance modulus of Cepheid host galaxy 30: 32.20528 +/- 0.0756345 mag
+Distance modulus of Cepheid host galaxy 31: 32.336952 +/- 0.076942496 mag
+Distance modulus of Cepheid host galaxy 32: 31.605988 +/- 0.10331344 mag
+Distance modulus of Cepheid host galaxy 33: 33.26922 +/- 0.07020102 mag
+Distance modulus of Cepheid host galaxy 34: 32.57976 +/- 0.08435556 mag
+Distance modulus of Cepheid host galaxy 35: 33.26697 +/- 0.083204284 mag
+Distance modulus of Cepheid host galaxy 36: 33.5439 +/- 0.08232855 mag
+Distance modulus of Cepheid host galaxy 37: 32.81605 +/- 0.054438885 mag
+
+The 38th parameter is $\Delta \mu_{N4258}$: -0.012683496 +/- 0.021796085 mag
+
+The 39th parameter is the reference Cepheids magnitudes: -5.8935504 +/- 0.018052928 mag
+
+The 40th parameter is $\Delta \mu_{LMC}$: 0.010103456 +/- 0.019405913 mag
+
+The 41st parameter is $\Delta \mu_{M31}$: 24.371397 +/- 0.06868375 mag
+
+The 42nd parameter, adding -3.285, gives bw: -3.2985241877287628 +/- 0.014915345 mag
+
+The 43rd parameter is the reference magnitude for SN Ia: -19.252974 +/- 0.028898714 mag
+
+The 44th parameter is Zw: -0.21658131 +/- 0.045208335 mag/dex
+
+The 45th parameter is identically 0: 0.0 +/- 3.1622778e-05
+
+The 46th parameter is identically $\Delta zp$: -0.07380101 +/- 0.010585633 mag
+
+The 47th parameter is 5log(H0): 9.317836 +/- 0.029941281
