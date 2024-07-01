@@ -9,19 +9,20 @@ from MCMC_utils import *
 # change the variables below for desired data files, output path, MCMC settings, etc.
 
 # least square fit results (for initial guess and constructing priors)
-lstsq_results_path = 'data/lstsq_results.txt'
+lstsq_results_path = '/home/git/AstroCosmoComputational/Students/Gabriele_Russo/ExamProject/lstsq_results.txt'
 
 # file names for equation matrices
-Y_fits_path = 'ally_shoes_ceph_topantheonwt6.0_112221.fits'
-L_fits_path = 'alll_shoes_ceph_topantheonwt6.0_112221.fits'
-C_fits_path = 'allc_shoes_ceph_topantheonwt6.0_112221.fits'
+Y_fits_path = '/home/git/AstroCosmoComputational/Students/Gabriele_Russo/ExamProject/ally_shoes_ceph_topantheonwt6.0_112221.fits'
+L_fits_path = '/home/git/AstroCosmoComputational/Students/Gabriele_Russo/ExamProject/alll_shoes_ceph_topantheonwt6.0_112221.fits'
+C_fits_path = '/home/git/AstroCosmoComputational/Students/Gabriele_Russo/ExamProject/allc_shoes_ceph_topantheonwt6.0_112221.fits'
 
 # default output file name
-OUTPATH = "final_v2_baseline.h5"
+OUTPATH = "/home/git/AstroCosmoComputational/Students/Gabriele_Russo/ExamProject/final_v2_baseline.h5"
 
 # MCMC sampler settings
-N_WALKERS = 100  # number of walkers
-N_CHAIN  = 100   # length of chain for each walker
+N_WALKERS = 100  # number of walkers, i.e. number of chains
+N_CHAIN  = 100   # length of chain for each walker (total number of samples = N_WALKERS * N_CHAIN), 
+# i.e. how many steps to take for each chain
 CONTD = False    # set CONTD = True to resume sampling (for specific OUTPATH)
 # note: keeping CONTD = False may overwrite an existing file.
 
