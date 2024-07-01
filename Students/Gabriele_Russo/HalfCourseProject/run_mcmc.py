@@ -3,7 +3,7 @@ A minimum working example to run MCMC for SH0ES data.
 Y.S.Murakami 2021-2022 @ JHU
 '''
 import numpy as np
-from MCMC_utils import *
+from ExamProject.MCMC_utils import *
 
 ##### config #####
 # change the variables below for desired data files, output path, MCMC settings, etc.
