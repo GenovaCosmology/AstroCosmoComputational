@@ -1,5 +1,7 @@
 import numpy as np
 from scipy.spatial import cKDTree
+from tqdm import tqdm
+import time
 
 def get_power_spectrum(delta_x,side,spacing,n_kF=1):
     '''
@@ -52,7 +54,7 @@ def count_pairs(data_1,r_edges,data_2=None):
         auto=False
     
     pairs=np.zeros(len(r_edges)-1)
-    for i in range(len(data_1)):
+    for i in tqdm(range(len(data_1))):
         neighbours_idx=np.array(tree.query_ball_point(data_1[i],r_edges[-1])) #from the i-th particle, I look for all the neighbors within r_edges[-1]
         if auto:
             cut_neighbours=np.where(neighbours_idx>i)[0]
