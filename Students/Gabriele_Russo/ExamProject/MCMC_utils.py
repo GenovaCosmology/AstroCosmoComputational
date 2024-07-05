@@ -143,3 +143,5 @@ def run_MCMC(nwalkers,chain,data_paths,lstsq_results,
         print(f'final size: {backend.iteration}',flush=True)
     else:
         sampler.run_mcmc(x0, chain, progress=True,skip_initial_state_check=True);
+        tau = sampler.get_autocorr_time()
+        print('Tau:', tau)
