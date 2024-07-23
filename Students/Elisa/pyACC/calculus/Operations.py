@@ -26,18 +26,19 @@ class Operations:
         #myfunc = lambda t : self.func(t)
         return self.func(*args)
 
-'''
-    def integration(self,lim=iterable object):
+
+    def integration(self, *args):
+        #ranges = [[xmin,xmax],[ymin,ymax]]
         #myfunc = lambda t : self.func(t)
-        return nquad(self.func, lim)
-'''
-'''
-        def derivation(self,n):
-            # n = derivative's degree
-            myfunc = lambda t : self.func(t)
-            return diff(myfunc,t,n)
+        return nquad(self.func, *args)
+
+
+    def derivation(self,n,*args):
+        # n = derivative's degree
+        myfunc = lambda t : self.func(t)
+        return diff(myfunc,t,n)
         
-'''
+
 
 
 '''
