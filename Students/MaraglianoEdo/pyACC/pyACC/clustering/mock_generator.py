@@ -93,35 +93,33 @@ def generate_lognormal_map(pk_func, side, spacing):
     # set the volume
     volume = side**3
     
-    n_cell = int(side//spacing)
+    n_cell = side//spacing
 
     # set the Fourier grid
     
     kx = np.fft.fftfreq(n_cell, spacing)*np.pi*2
     ky = np.fft.fftfreq(n_cell, spacing)*np.pi*2
-    kz = np.fft.fftfreq(n_cell, spacing)*np.pi*2
+    kz = np.fft.rfftfreq(n_cell, spacing)*np.pi*2
     
-    kx = np.fft.fftshift(kx)
-    ky = np.fft.fftshift(ky)
-    kz = np.fft.fftshift(kz)
+    #kx = np.fft.fftshift(kx)
+    #ky = np.fft.fftshift(ky)
+    #kz = np.fft.fftshift(kz)
     
-    KX, KY, KZ = np.meshgrid(kx,ky,kz, indexing='xy')
+    KX, KY, KZ = np.meshgrid(kx,ky,kz, indexing='ij')
 
     knorm = np.sqrt(KX**2+KY**2+KZ**2)
     pks = pk_func(knorm)
 
     # get 2PCF on the grid
+    xi = np.fft.irfftn(pks) / spacing**3
 
-    xi = np.fft.ifftn(pks) / spacing**3
-
-    if (xi.any()<= -1):
-        raise ValueError("xi<-1")
+    if np.any(xi <= -1):
+        raise ValueError("Invalid input: xi contains elements <= -1")
     # generate gaussian 2PCF
     xi_g = np.log(1+xi)
-    
-    # get PS from xi_g
 
-    pk_g = np.fft.fftn(xi_g) * spacing**3
+    # get PS from xi_g
+    pk_g = np.fft.rfftn(xi_g) * spacing**3
 
     # generate G(k)
 
@@ -132,8 +130,7 @@ def generate_lognormal_map(pk_func, side, spacing):
     G_k = G_k_norm *(np.cos(phase)+1j*np.sin(phase))
 
     # Compute G(x)
-
-    G_x = np.fft.ifftn(G_k, norm='backward').real/spacing**3
+    G_x = np.fft.irfftn(G_k, norm='backward')/spacing**3
 
     # get delta from G_x using lognormal transform
 
