@@ -155,7 +155,7 @@ Root_remote_dir = "data/DR" + str(DR) + "/" + space + "_ZAreconstructed/Smth_tes
 # ----------------- cosmology, smoothing scale, redshift bin -----------------
 
 # bias fitted from the mocks
-boss_measured_bias = np.array([1.98,1.8])
+boss_measured_bias = np.array([1.85,2.0])
 
 #fiducial cosmology of the mocks      
 cosmo = GetData.EuclidCosmology()
@@ -261,6 +261,7 @@ out_dir = os.path.join(local_dir_reconstruction, rec, zname)
 os.makedirs(out_dir, exist_ok=True)
 
 # loop over smoothing scales
+# fixed to 15 Mpc/h as in Ross et al and Alam et al
 for sm in smth:              
     
     out_dir_smoothing = os.path.join(out_dir, f'Smth_{sm}/')

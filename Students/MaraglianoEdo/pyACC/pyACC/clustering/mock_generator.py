@@ -78,10 +78,6 @@ def generate_lognormal_map(pk_func, side, spacing):
         
         Returns:
         --------
-        G_k : ndarray
-        The generated lognormal random field in Fourier space.
-        G_x : ndarray
-        The generated lognormal random field in real space.
         delta_x : ndarray
         The generated lognormal density field in real space.
         
@@ -91,7 +87,7 @@ def generate_lognormal_map(pk_func, side, spacing):
         >>>     return k**-3  # Example power spectrum function
         >>> side = 1.0
         >>> spacing = 0.1
-        >>> G_k, G_x, delta_x = generate_lognormal_map(pk_func, side, spacing)
+        >>> delta_x = generate_lognormal_map(pk_func, side, spacing)
         """
     
     # set the volume
@@ -103,11 +99,12 @@ def generate_lognormal_map(pk_func, side, spacing):
     
     kx = np.fft.fftfreq(n_cell, spacing)*np.pi*2
     ky = np.fft.fftfreq(n_cell, spacing)*np.pi*2
-    kz = np.fft.rfftfreq(n_cell, spacing)*np.pi*2
-
+    kz = np.fft.fftfreq(n_cell, spacing)*np.pi*2
+    
     kx = np.fft.fftshift(kx)
     ky = np.fft.fftshift(ky)
-
+    kz = np.fft.fftshift(kz)
+    
     KX, KY, KZ = np.meshgrid(kx,ky,kz, indexing='xy')
 
     knorm = np.sqrt(KX**2+KY**2+KZ**2)
@@ -115,16 +112,16 @@ def generate_lognormal_map(pk_func, side, spacing):
 
     # get 2PCF on the grid
 
-    xi = np.fft.irfftn(pks) / spacing**3
+    xi = np.fft.ifftn(pks) / spacing**3
 
-    if xi.any()<=-1:
+    if (xi.any()<= -1):
         raise ValueError("xi<-1")
     # generate gaussian 2PCF
     xi_g = np.log(1+xi)
-
+    
     # get PS from xi_g
 
-    pk_g = np.fft.rfftn(xi_g) * spacing**3
+    pk_g = np.fft.fftn(xi_g) * spacing**3
 
     # generate G(k)
 
@@ -136,7 +133,7 @@ def generate_lognormal_map(pk_func, side, spacing):
 
     # Compute G(x)
 
-    G_x = np.fft.irfftn(G_k, norm='backward')/spacing**3
+    G_x = np.fft.ifftn(G_k, norm='backward').real/spacing**3
 
     # get delta from G_x using lognormal transform
 

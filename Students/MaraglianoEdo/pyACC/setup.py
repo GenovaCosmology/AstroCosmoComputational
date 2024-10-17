@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='pyACC',
-    version='0.1',
+    version='0.1.1',
     author='EdoardoMaragliano',
     author_email='edoardo.maragliano@gmail.com',
     description='A short description of your package',
