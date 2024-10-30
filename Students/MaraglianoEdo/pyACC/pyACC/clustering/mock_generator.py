@@ -41,10 +41,10 @@ def generate_gaussian_map(pk_func, side, spacing):
     ky = np.fft.fftfreq(n_cell, spacing)*np.pi*2
     kz = np.fft.rfftfreq(n_cell, spacing)*np.pi*2
 
-    kx = np.fft.fftshift(kx)
-    ky = np.fft.fftshift(ky)
+    #kx = np.fft.fftshift(kx)
+    #ky = np.fft.fftshift(ky)
 
-    KX, KY, KZ = np.meshgrid(kx,ky,kz, indexing='xy')
+    KX, KY, KZ = np.meshgrid(kx,ky,kz, indexing='ij')
 
     knorm = np.sqrt(KX**2+KY**2+KZ**2)
     pks = pk_func(knorm)
@@ -96,7 +96,7 @@ def generate_lognormal_map(pk_func, side, spacing):
     n_cell = side//spacing
 
     # set the Fourier grid
-    
+
     kx = np.fft.fftfreq(n_cell, spacing)*np.pi*2
     ky = np.fft.fftfreq(n_cell, spacing)*np.pi*2
     kz = np.fft.rfftfreq(n_cell, spacing)*np.pi*2
@@ -109,6 +109,7 @@ def generate_lognormal_map(pk_func, side, spacing):
 
     knorm = np.sqrt(KX**2+KY**2+KZ**2)
     pks = pk_func(knorm)
+
 
     # get 2PCF on the grid
     xi = np.fft.irfftn(pks) / spacing**3
@@ -132,19 +133,18 @@ def generate_lognormal_map(pk_func, side, spacing):
     # Compute G(x)
     G_x = np.fft.irfftn(G_k, norm='backward')/spacing**3
 
+    print(np.mean(G_x))
     # get delta from G_x using lognormal transform
 
     var_G = np.var(G_x)
-    delta_x = np.exp(G_x-var_G)-1
+    delta_x = np.exp(G_x-var_G/2)-1
 
     return delta_x
 
 
 
-
-
 ## it's called poisson sample map but returns a catalog. maybe change it?
-def poisson_sample_map(delta_x, side, spacing, N_objects, seed=666):
+def poisson_sample_from_map(delta_x, side, spacing, N_objects, seed=666):
     """
     Generates a Poisson realization of a density field from an input density contrast field.
 

@@ -47,10 +47,10 @@ def get_power_spectrum(delta_x, side, spacing, n_kF=1):
     ky = np.fft.fftfreq(n_cell, spacing)*np.pi*2
     kz = np.fft.rfftfreq(n_cell, spacing)*np.pi*2
 
-    kx = np.fft.fftshift(kx)
-    ky = np.fft.fftshift(ky)
+    #kx = np.fft.fftshift(kx)
+    #ky = np.fft.fftshift(ky)
 
-    KX, KY, KZ = np.meshgrid(kx,ky,kz, indexing='xy')
+    KX, KY, KZ = np.meshgrid(kx,ky,kz, indexing='ij')
 
     knorm = np.sqrt(KX**2+KY**2+KZ**2)
 
