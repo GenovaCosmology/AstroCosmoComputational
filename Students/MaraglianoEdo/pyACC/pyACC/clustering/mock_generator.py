@@ -107,9 +107,9 @@ def generate_lognormal_map(pk_func, side, spacing):
     
     KX, KY, KZ = np.meshgrid(kx,ky,kz, indexing='ij')
 
+    # get the power spectrum on the grid
     knorm = np.sqrt(KX**2+KY**2+KZ**2)
     pks = pk_func(knorm)
-
 
     # get 2PCF on the grid
     xi = np.fft.irfftn(pks) / spacing**3
@@ -122,25 +122,26 @@ def generate_lognormal_map(pk_func, side, spacing):
     # get PS from xi_g
     pk_g = np.fft.rfftn(xi_g) * spacing**3
 
-    # generate G(k)
-
-    phase = np.random.uniform(size=pks.shape)*2*np.pi
-    G_k_norm = np.random.normal(size=pks.shape)*np.sqrt(pk_g*volume)
+    # generate G(k), a gaussian field in Fourier space with power spectrum pk_g
+    phase = np.random.uniform(size=pks.shape)*2*np.pi                   #random phase
+    G_k_norm = np.random.normal(size=pks.shape)*np.sqrt(pk_g*volume)    #such that <G_k G_k^*> = P_g(k)
     G_k_norm[0,0,0] = 0
 
     G_k = G_k_norm *(np.cos(phase)+1j*np.sin(phase))
 
-    # Compute G(x)
+    # Compute G(x), the gaussian field in real space
     G_x = np.fft.irfftn(G_k, norm='backward')/spacing**3
 
-    print(np.mean(G_x))
+    print('mean of G_x is = ', np.mean(G_x))
     # get delta from G_x using lognormal transform
 
+    # compute variance of G_x: E[e^G_x] = e^(mu+var(G_x)/2)
     var_G = np.var(G_x)
+    print('variance of G_x is = ', var_G)
+    # subtract var(G_x)/2 to get E[G_x]=e^mu
     delta_x = np.exp(G_x-var_G/2)-1
 
     return delta_x
-
 
 
 ## it's called poisson sample map but returns a catalog. maybe change it?

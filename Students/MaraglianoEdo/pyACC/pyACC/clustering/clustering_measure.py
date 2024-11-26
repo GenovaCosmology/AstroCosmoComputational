@@ -81,6 +81,59 @@ def get_power_spectrum(delta_x, side, spacing, n_kF=1):
 
     return k_bin, pk_meas
 
+def get_power_spectrumv2(delta_x, side, spacing, n_kF=1):
+    """
+    Computes the power spectrum of a 3D density field.
+
+    Parameters:
+    -----------
+    delta_x : ndarray
+        A 3D array representing the density contrast field.
+    side : float
+        The physical size of the simulation box (e.g., in Mpc/h).
+    spacing : float
+        The spatial resolution of the grid (e.g., in Mpc/h).
+    n_kF : int, optional
+        The number of fundamental modes per bin for the power spectrum. Default is 1.
+
+    Returns:
+    --------
+    k_bin : ndarray
+        1D array of wavenumber bins' central values.
+    pk_meas : ndarray
+        1D array of the measured power spectrum values corresponding to `k_bin`.
+    """
+    # Box and grid parameters
+    Volume = side**3
+    n_cell = int(side / spacing)
+
+    # Define Fourier wavenumbers
+    kx = np.fft.fftfreq(n_cell, spacing) * 2 * np.pi
+    ky = np.fft.fftfreq(n_cell, spacing) * 2 * np.pi
+    kz = np.fft.rfftfreq(n_cell, spacing) * 2 * np.pi
+
+    KX, KY, KZ = np.meshgrid(kx, ky, kz, indexing='ij')
+    knorm = np.sqrt(KX**2 + KY**2 + KZ**2)
+
+    # FFT of the density contrast field
+    delta_k = np.fft.rfftn(delta_x, norm='backward') * (spacing**3)
+    delta_k_sq = np.abs(delta_k)**2 / Volume  # Power spectrum normalization
+
+    # Define bin edges and centers
+    kF = 2 * np.pi / side
+    kN = np.pi / spacing
+    edges = np.arange(kF, kN + kF, n_kF * kF)
+    k_bin = 0.5 * (edges[:-1] + edges[1:])
+
+    # Bin the power spectrum
+    pk_meas = np.zeros(len(k_bin))
+    for i in range(len(k_bin)):
+        bin_indices = (knorm.flatten() >= edges[i]) & (knorm.flatten() < edges[i + 1])
+        if np.any(bin_indices):  # Avoid division by zero
+            pk_meas[i] = np.mean(delta_k_sq.flatten()[bin_indices])
+
+    return k_bin, pk_meas
+
 
 
 def count_pairs(data_1, r_edges, data_2 = None ):
