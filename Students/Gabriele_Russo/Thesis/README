@@ -2,3 +2,4 @@ THESIS PROJECT STRUCTURE
 
 1. wedges_test_Sanchez2016.ipynb 
 -> it works on data available in folder Sanchez_etal_2026a etc. (note data are in a subfolder)
+-> wedge plot in 3 bins, covariance plots, correlation matrix plot
