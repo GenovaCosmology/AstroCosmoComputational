@@ -1,87 +1,9 @@
 import numpy as np
 from scipy.spatial import cKDTree
 from tqdm.notebook import tqdm
+from multiprocessing import Pool
 
 def get_power_spectrum(delta_x, side, spacing, n_kF=1):
-    """
-    Computes the power spectrum of a 3D density field.
-
-    Parameters:
-    -----------
-    delta_x : ndarray
-        A 3D array representing the density contrast field.
-    side : float
-        The physical size of the simulation box (e.g., in Mpc/h).
-    spacing : float
-        The spatial resolution of the grid (e.g., in Mpc/h).
-    n_kF : int, optional
-        The number of fundamental modes per bin for the power spectrum. Default is 1.
-
-    Returns:
-    --------
-    k_bin : ndarray
-        1D array of wavenumber bins' central values.
-    pk_meas : ndarray
-        1D array of the measured power spectrum values corresponding to `k_bin`.
-
-    Notes:
-    ------
-    This function assumes periodic boundary conditions and uses the Fast Fourier Transform (FFT) 
-    to compute the Fourier transform of the input density field. The power spectrum is calculated 
-    by binning the squared magnitudes of the Fourier modes.
-
-    Example:
-    --------
-    >>> import numpy as np
-    >>> delta_x = np.random.randn(64, 64, 64)
-    >>> side = 100.0
-    >>> spacing = 1.5625
-    >>> k_bin, pk_meas = get_power_spectrum(delta_x, side, spacing)
-    """
-    Volume = side**3
-    n_cell = int(side//spacing)
-
-    # set the Fourier grid
-
-    kx = np.fft.fftfreq(n_cell, spacing)*np.pi*2
-    ky = np.fft.fftfreq(n_cell, spacing)*np.pi*2
-    kz = np.fft.rfftfreq(n_cell, spacing)*np.pi*2
-
-    #kx = np.fft.fftshift(kx)
-    #ky = np.fft.fftshift(ky)
-
-    KX, KY, KZ = np.meshgrid(kx,ky,kz, indexing='ij')
-
-    knorm = np.sqrt(KX**2+KY**2+KZ**2)
-
-    # get the density field in Fourier space
-    delta_k = np.fft.rfftn(delta_x, norm='backward')*spacing**3
-
-    # compute the power spectrum
-    delta_k_sq = np.abs(delta_k)**2
-
-    pks = delta_k_sq.flatten()/Volume
-
-    # binning
-
-    kF = 2*np.pi/side
-    kN = 2*np.pi/spacing
-    edges = np.arange(kF,kN, n_kF*kF)
-    k_bin = (edges[1:]+edges[0:-1])/2
-
-    pk_meas = np.zeros(k_bin.shape)
-
-    # Loop through each bin edge
-    for i in range(len(k_bin)-1):
-        # Find indices where the values of k_norm fall within the range defined by the bin edges
-        k_selection = np.where((knorm.flatten() >= edges[i]) & (knorm.flatten() < edges[i + 1]))[0]
-        
-        # Calculate the mean value of Pk within the bin
-        pk_meas[i] = np.mean(pks.flatten()[k_selection])
-
-    return k_bin, pk_meas
-
-def get_power_spectrumv2(delta_x, side, spacing, n_kF=1):
     """
     Computes the power spectrum of a 3D density field.
 
@@ -119,6 +41,9 @@ def get_power_spectrumv2(delta_x, side, spacing, n_kF=1):
     delta_k = np.fft.rfftn(delta_x, norm='backward') * (spacing**3)
     delta_k_sq = np.abs(delta_k)**2 / Volume  # Power spectrum normalization
 
+    # Remove the zero mode
+    delta_k[0, 0, 0] = 0
+    
     # Define bin edges and centers
     kF = 2 * np.pi / side
     kN = np.pi / spacing

@@ -213,4 +213,5 @@ def poisson_sample_from_map(delta_x, side, spacing, N_objects, seed=666):
                 if Nobj_x_sample[i,j,k] > 0 :
                     points.extend(np.random.uniform(size=(Nobj_x_sample[i,j,k], 3), low=[x_min,y_min,z_min], high=[x_max,y_max, z_max]))
 
+    print('total number of objects = ', len(points), 'out of ', N_objects)
     return np.array(points)
